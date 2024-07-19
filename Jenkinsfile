@@ -94,7 +94,7 @@ pipeline {
         stage('Publish to artifactory') {
             steps {
                 script {
-                    withDockerContainer(image: 'docker.dev.idnow.de/sbt', toolName: 'docker') {
+                    withDockerContainer(image: build_container_image, toolName: 'docker') {
                         sh "sbt -v publish"
                     }
                     archiveArtifacts artifacts: 'target/scala-2.13/*.jar', fingerprint: true
