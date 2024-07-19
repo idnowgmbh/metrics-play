@@ -91,21 +91,24 @@ pipeline {
             }
         }
 
-        stage ('Publish') {
+        stage('Publish to artifactory') {
             steps {
-                withCredentials([
-                        usernamePassword(
-                            credentialsId: 'jenkins-artifactory',
-                            passwordVariable: 'DOCKER_PASS',
-                            usernameVariable: 'DOCKER_USER')
-                ]) {
-                    sh """
-                    sbt publishLocal
-                    """
+                script {
+                    withDockerContainer(image: 'docker.dev.idnow.de/sbt', toolName: 'docker') {
+                        sh "sbt -v publish"
+                    }
                     archiveArtifacts artifacts: 'target/scala-2.13/*.jar', fingerprint: true
                 }
             }
+            post {
+                failure {
+                    script {
+                        currentBuild.displayName = "${currentBuild.displayName} : Failed in publishLocal"
+                    }
+                }
+            }
         }
+
     }
 
     post {

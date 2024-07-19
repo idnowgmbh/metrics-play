@@ -1,18 +1,14 @@
 organization:= "com.kenshoo"
-
 name := "metrics-play"
+version := s"${playVersion}_${metricsPlayVersion}"
 
 scalaVersion := "2.13.8"
 
 crossScalaVersions := Seq(scalaVersion.value, "3.3.0")
 
 val playVersion = "3.0.0"
-
 val metricsPlayVersion = "0.8.2"
-
 val dropwizardVersion = "4.0.5"
-
-version := s"${playVersion}_${metricsPlayVersion}"
 
 
 scalacOptions := Seq("-unchecked", "-deprecation")
@@ -22,6 +18,9 @@ Test / testOptions += Tests.Argument("junitxml", "console")
 Test / parallelExecution := false
 
 resolvers += Resolver.jcenterRepo
+
+credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
+resolvers += "Artifactory SBT Realm" at "https://docker.dev.idnow.de:443/artifactory/sbt"
 
 libraryDependencies ++= Seq(
     "io.dropwizard.metrics" % "metrics-core" % dropwizardVersion,
