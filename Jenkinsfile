@@ -72,16 +72,6 @@ pipeline {
         }
 
         stage('Test') {
-            when {
-                not {
-                    anyOf {
-                        buildingTag()
-                        // changeRequest()
-                        expression { return !params.runTests }
-                    }
-                }
-            }
-
             steps {
                 script {
                    docker_group = sh (
