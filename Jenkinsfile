@@ -95,6 +95,9 @@ pipeline {
             steps {
                 script {
                     withDockerContainer(image: build_container_image, toolName: 'docker') {
+                      sh """
+                        echo 'publishTo := Some("Artifactory Realm" at "https://${ARTIFACTORY_HOST}/artifactory/sbt-local")' >> build.sbt;
+                      """
                         sh "sbt -v publish"
                     }
                     archiveArtifacts artifacts: 'target/scala-2.13/*.jar', fingerprint: true
