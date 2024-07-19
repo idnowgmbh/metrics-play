@@ -91,19 +91,14 @@ pipeline {
             }
         }
 
-        stage('Package') {
+        stage('Publish to artifactory') {
             steps {
-                withDockerRegistry([credentialsId:'jenkins-artifactory', url: "https://${ARTIFACTORY_HOST}"]) {
-                    script {
-                        def version = env.TAG_NAME?.trim() ? env.TAG_NAME :env.BRANCH_NAME
-                        sh """
-                        echo "version=${version}" | tee conf/version.properties;
-                        echo "commit=${fullCommit}" | tee -a conf/version.properties;
-                        """
-                        withDockerContainer(image: build_container_image, args: '-v de.idnow.ai-coursier:/root/.cache/coursier') {
-                            sh "sbt dist"
-                        }
+                script {
+                    // This step should not normally be used in your script. Consult the inline help for details.
+                    withDockerContainer(image: build_container_image, toolName: 'docker') {
+                        sh "sbt -v publish"
                     }
+                    archiveArtifacts artifacts: 'target/scala-2.13/*.jar', fingerprint: true
                 }
             }
         }
