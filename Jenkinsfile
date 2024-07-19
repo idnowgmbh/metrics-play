@@ -121,10 +121,6 @@ pipeline {
 
     post {
         always {
-            script {
-                sh "docker rmi ${tagged_label} || true"
-                sh """(docker images | grep "${container_title}"| awk '{print \$3}' | xargs docker rmi -f) || true"""
-            }
             step([$class: 'CordellWalkerRecorder'])
             cleanWs()
             jiraSendBuildInfo site: 'idnowgmbh.atlassian.net'
