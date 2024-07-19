@@ -91,13 +91,17 @@ pipeline {
             }
         }
 
-        stage('Publish to artifactory') {
+        stage ('Publish') {
             steps {
-                script {
-                    // This step should not normally be used in your script. Consult the inline help for details.
-                    withDockerContainer(image: build_container_image, toolName: 'docker') {
-                        sh "sbt -v publish"
-                    }
+                withCredentials([
+                        usernamePassword(
+                            credentialsId: 'jenkins-artifactory',
+                            passwordVariable: 'DOCKER_PASS',
+                            usernameVariable: 'DOCKER_USER')
+                ]) {
+                    sh """
+                    sbt publishLocal
+                    """
                     archiveArtifacts artifacts: 'target/scala-2.13/*.jar', fingerprint: true
                 }
             }
