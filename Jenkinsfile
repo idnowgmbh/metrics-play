@@ -56,34 +56,19 @@ pipeline {
     }
     stages {
 
-      stage('Patch build.sbt') {
+
+        stage('Compile') {
             steps {
-                script {
-                    withCredentials([
-                        usernamePassword(
-                            credentialsId: artifactoryCredsId,
-                            passwordVariable: 'DOCKER_PASS',
-                            usernameVariable: 'DOCKER_USER')
-                    ]) {
-                        sh """
-                            echo 'publishTo := Some("Artifactory Realm" at "https://${ARTIFACTORY_HOST}/artifactory/sbt-local")' >> build.sbt;
-                            #echo 'credentials += Credentials("Artifactory Realm", "${ARTIFACTORY_HOST}", "${env.DOCKER_USER}", "${env.DOCKER_PASS}")' >> build.sbt;
-                            echo 'resolvers += "Artifactory" at "https://${ARTIFACTORY_HOST}/artifactory/sbt/"' >> build.sbt;
-                        """
+                withDockerRegistry([credentialsId:'jenkins-artifactory', url: "https://${ARTIFACTORY_HOST}"]) {
+                    script {
+                        withDockerContainer(image: build_container_image, args: '-v de.idnow.ai-coursier:/root/.cache/coursier') {
+			    configFileProvider([configFile(fileId: 'sbt_credentials', targetLocation: "${SBT_CREDENTIALS_FILE}")]) {
+            sh "sbt ';clean ;compile'"
+			                    }
+                        }
                     }
                 }
             }
-        }
-
-
-        stage('Compile') {
-          steps {
-            script {
-              withDockerContainer(image: 'docker.dev.idnow.de/sbt', toolName: 'docker') {
-                  sh "sbt ';clean ;compile"
-              }
-            }
-          }
         }
 
         stage('Test') {
