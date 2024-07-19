@@ -37,15 +37,6 @@ libraryDependencies ++= Seq(
 
 publishMavenStyle := true
 
-publishTo := Some(
-  if (isSnapshot.value)
-    Opts.resolver.sonatypeSnapshots
-  else
-    Opts.resolver.sonatypeStaging
-)
-
-credentials += Credentials(Path.userHome / ".m2" / ".credentials")
-
 pomIncludeRepository := { _ => false }
 
 Test / publishArtifact := false

@@ -103,7 +103,7 @@ pipeline {
             post {
                 failure {
                     script {
-                        currentBuild.displayName = "${currentBuild.displayName} : Failed in publishLocal"
+                        currentBuild.displayName = "${currentBuild.displayName} : Failed in publish to Artifactory."
                     }
                 }
             }
