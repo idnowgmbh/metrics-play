@@ -2,7 +2,7 @@ organization:= "com.kenshoo"
 name := "metrics-play"
 version := s"${playVersion}_${metricsPlayVersion}"
 
-scalaVersion := "2.13.8"
+scalaVersion := "2.13.14"
 
 crossScalaVersions := Seq(scalaVersion.value, "3.3.0")
 
