@@ -3,7 +3,7 @@
 * this is fork from this PR: https://github.com/kenshoo/metrics-play/pull/88
 * it is update to work for Play 3.0.
 * updated some libraries to newer version.
-* it is not in sync with kenshoo/metric-play (changes from abouve PR done manually)
+* it is not in sync with [kenshoo/metric-play](https://github.com/kenshoo/metrics-play) (changes from abouve PR done manually)
 * for play3.0 this is in branch - `play3`
 
 # metrics-play
