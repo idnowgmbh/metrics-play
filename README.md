@@ -1,3 +1,11 @@
+# IDnow internal info
+
+* this is fork from this PR: https://github.com/kenshoo/metrics-play/pull/88
+* it is update to work for Play 3.0.
+* updated some libraries to newer version.
+* it is not in sync with kenshoo/metric-play (changes from abouve PR done manually)
+* for play3.0 this is in branch - `play3`
+
 # metrics-play
 
 This module provides some support for @codahale [Metrics](https://dropwizard.github.io/metrics/4.0.5/) library in a Play2 application (Scala)
@@ -137,6 +145,7 @@ play.modules.enabled+="myapp.MyMetricsModule"
 
 ## Changes
 
+* 3.0.4_0.8.3 - Upgrade to play 3.0.4, scala 2.13.14 and other libs update
 * 2.7.3_0.8.2 - Minor compatability fix for Play 2.8
 * 2.7.3_0.8.1 - Upgrade to play 2.7.3 and support Scala version 2.12.8 / 2.13.0 with dropwizard 4.0.5
 * 2.7.0_0.8.0 - Upgrade to play 2.7.0 and Scala 2.12.8 and dropwizard 4.0.5
